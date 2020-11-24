@@ -4,8 +4,17 @@ import {View,Text,StyleSheet,Platform} from 'react-native';
 
 const PlaceDetailScreen=props=>{
     return(
-        true
+        <View>
+            <Text>PlaceDetailScreen</Text>
+        </View>
     )
+}
+
+
+PlaceDetailScreen.navigationOptions=navData=>{
+    return{
+        headerTitle:navData.navigation.getParam('placeTitle')
+    }
 }
 
 
