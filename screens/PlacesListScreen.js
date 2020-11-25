@@ -11,12 +11,12 @@ const PlacesListScreen=props=>{
     return(
         
             <FlatList 
-            data={places}//itemDataprende i valori da places
+            data={places}//itemData prende i valori da da places dentro al place model
             keyExtractor={item=>item.id}
             renderItem={itemData=>(
             <PlaceItem 
             title={itemData.item.title}
-            image={null}
+            image={itemData.item.imageUri}
             address={null}
             onSelect={()=>{
                 props.navigation.navigate('PlaceDetail',{

@@ -51,6 +51,7 @@ const ImgPicker=props=>{
         */
         console.log(image);
         setPickedImage(image.uri);
+        props.onImageTake(image.uri);//inoltro immagine al componente padre NewPlaceScreen
     }
 
 
@@ -74,7 +75,8 @@ return (
 };
 const styles = StyleSheet.create({
     imagePicker: {
-      alignItems: 'center'
+      alignItems: 'center',
+      marginBottom:15
     },
     imagePreview: {
       width: '100%',

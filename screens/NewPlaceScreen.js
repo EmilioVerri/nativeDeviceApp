@@ -11,6 +11,9 @@ import ImagePicker from '../components/ImagePicker';
 const NewPlaceScreen=props=>{
 
     const[titleValue,setTitleValue]=useState('');
+    //faccio un altro useState per memorizzare l'immagine che gli passo dalla ImagePicker
+    const[selectedImage,setSelectedImage]=useState();
+
     const dispatch=useDispatch();
 
     const titleChangeHandler=text=>{
@@ -18,8 +21,16 @@ const NewPlaceScreen=props=>{
     }
 
     const savePlaceHandler=()=>{
-        dispatch(placesActions.addPlace(titleValue));
+        //passo anche all'azione la selectedImage
+        dispatch(placesActions.addPlace(titleValue,selectedImage));
         props.navigation.goBack();
+    }
+
+    /**definisco nuova constante imageTakenHandler che ha un campo di input e dentro gli salvo 
+     * setSelectedImage(con dentro imagePath)
+    */
+    const imageTakenHandler=imagePath=>{
+        setSelectedImage(imagePath);
     }
 
 
@@ -28,7 +39,7 @@ const NewPlaceScreen=props=>{
         <View style={styles.form}>
             <Text style={styles.label}>Title</Text>
             <TextInput style={styles.textInput} onChangeText={titleChangeHandler} value={titleValue}/>
-            <ImagePicker />
+            <ImagePicker onImageTake={imageTakenHandler}/>{/*recupero informazioni salvate*/}
             <Button 
             title="Save Place" 
             color={Colors.primary} 
