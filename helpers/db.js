@@ -70,3 +70,31 @@ export const insertPlace=(title,imageUri,address,lat,lng)=>{
     });
     return promise; // ritorno all'esterno la constante promise
 };
+
+/**
+ * creiamo una funzione che riprende i valori dal DB e copio i valori della funzione sopra
+ * tolgo gli argomenti dalla parentesi quadra
+ * come codice sql dobbiamo mettere una SELECT:
+ * dove vado a prendere tutte le colonne dal DB places
+ * 
+ */
+
+export const fetchPlaces=()=>{
+    const promise=new Promise((resolve,reject)=>{
+        db.transaction((tx)=>{
+            tx.executeSql(
+            `SELECT * FROM places`,
+            [],
+
+            (_,result)=>{
+                resolve(result);
+            },
+
+            (_,err)=>{
+                reject(err);
+            }
+            );
+        });
+    });
+    return promise; // ritorno all'esterno la constante promise
+};

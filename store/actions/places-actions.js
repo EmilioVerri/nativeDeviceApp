@@ -1,7 +1,7 @@
 //lo importo per accedere al filesystem
 import * as FileSystem from 'expo-file-system';
 //importiamo DB
-import {insertPlace} from '../../helpers/db';
+import {insertPlace,fetchPlaces} from '../../helpers/db';
 
 export const ADD_PLACE='ADD_PLACE';
 
@@ -50,3 +50,27 @@ export const addPlace=(title,image)=>{
     };
    // return {type:ADD_PLACE, placeData:{title:title,image:image}}
 };
+
+
+/**definisco un azione SET_PLACES */
+export const SET_PLACES='SET_PLACES';
+
+/**definisco un nuovo actions creator loadPlaces
+ * che ritorna una dispatch asincrona
+ * dove dentro definisco una dispatch con il type e places impostato come array vuoto dove salverò tutti i dati
+ * dentro al blocco try passiamo una constante dbResult uguale alla funzione fetchPlaces dentro alla db.js e dentro al blocco try
+ * mettiamo anche la dispatch
+ * vado a fare la dispatch dell'azione dentro alla PlacesListScreen
+ */
+
+ export const loadPlaces=()=>{
+     return async dispatch=>{
+         try{
+             const dbResult=await fetchPlaces();
+             console.log(dbResult);
+             dispatch({type:SET_PLACES,places:dbResult.rows._array})//richiamo il valore che c'è dentro al dbResult stampato con console.log
+         }catch(err){
+             throw err;
+         }
+     };
+ };
