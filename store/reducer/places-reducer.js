@@ -10,7 +10,8 @@ export default(state=initialState,action)=>{
     switch(action.type){
         case ADD_PLACE:
             const newPlace=new Place(
-                new Date().toString(),
+                //new Date().toString(),non ci sarà più questo id
+                action.placeData.id.toString(),
                 action.placeData.title,
                 action.placeData.image
             )

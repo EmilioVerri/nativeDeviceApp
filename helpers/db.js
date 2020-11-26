@@ -25,11 +25,41 @@ const db=SQLite.openDatabase('places.db');
 export const init=()=>{
     const promise=new Promise((resolve,reject)=>{
         db.transaction((tx)=>{
-            tx.executeSql('CREATE TABLE IF NOT EXISTS places (id INTEGER PRIMARY KEY NOT NULL, title TEXT NOT NULL, imageUrl TEXT NOT NULL,address TEXT NOT NULL,lat REAL NOT NULL, lng REAL NOT NULL);',
+            tx.executeSql('CREATE TABLE IF NOT EXISTS places (id INTEGER PRIMARY KEY NOT NULL, title TEXT NOT NULL, imageUri TEXT NOT NULL,address TEXT NOT NULL,lat REAL NOT NULL, lng REAL NOT NULL);',
             [],
 
             ()=>{
                 resolve();
+            },
+
+            (_,err)=>{
+                reject(err);
+            }
+            );
+        });
+    });
+    return promise; // ritorno all'esterno la constante promise
+};
+
+
+/**
+ * creo una nuova constante insertPlace dove gli passo i valori che c'erano nel db tranne l'id come argomento
+ * all'interno copio quello che ho definito sopra, ma nell'eseguire la tabella scrivo:
+ * e inserisco dentro al DB title,imageUri,address,lat,lng e con VALUES specifico i valori nelle rispettive colonne utilizzo back-tips per un valore dinamico ALT+96
+ * utilizzo 5 punti interrogativi per evitare le SQL injection cioè l'utente che inserisce codice SQL malevolo per modificare DB
+ * e i valori li passo dentro le quadre del secondo argomento così evitiamo qualsiasi attacco
+ * il primo argomento della funzione success è _, come secondo argomento è result e glielo passo anche a resolve
+ * quindi adesso la constante insertPlace la chiamiamo dentro l'azione places
+ */
+export const insertPlace=(title,imageUri,address,lat,lng)=>{
+    const promise=new Promise((resolve,reject)=>{
+        db.transaction((tx)=>{
+            tx.executeSql(
+                `INSERT INTO places (title,imageUri,address,lat,lng) VALUES(?,?,?,?,?);`,
+            [title,imageUri,address,lat,lng],
+
+            (_,result)=>{
+                resolve(result);
             },
 
             (_,err)=>{
