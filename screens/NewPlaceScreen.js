@@ -1,6 +1,7 @@
 import React,{useState} from 'react';
 import {View,Text,StyleSheet,Platform,TextInput,ScrollView,Button} from 'react-native';
 import Colors from'../constants/Colors';
+import LocationPicker from '../components/LocationPicker';
 
 import * as placesActions from '../store/actions/places-actions';
 import {useDispatch} from 'react-redux';
@@ -40,6 +41,7 @@ const NewPlaceScreen=props=>{
             <Text style={styles.label}>Title</Text>
             <TextInput style={styles.textInput} onChangeText={titleChangeHandler} value={titleValue}/>
             <ImagePicker onImageTake={imageTakenHandler}/>{/*recupero informazioni salvate*/}
+            <LocationPicker />
             <Button 
             title="Save Place" 
             color={Colors.primary} 
