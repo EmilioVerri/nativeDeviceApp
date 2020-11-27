@@ -1,6 +1,7 @@
-import React,{useState} from 'react';
-import {View,Text,StyleSheet,Platform} from 'react-native';
+import React,{useState,useEffect,useCallback} from 'react';
+import {View,Text,StyleSheet,Platform,TouchableOpacity,Alert} from 'react-native';
 import MapView,{Marker} from 'react-native-maps';
+import Colors from '../constants/Colors';
 
 
 const MapScreen=props=>{
@@ -20,7 +21,19 @@ const MapScreen=props=>{
             lng:event.nativeEvent.coordinate.longitude
         })
     };
+  
+const savePickedLocationHandler=useCallback(()=>{
+    if(!selectedLocation){
+        Alert.alert('non è stata inserita nessun marcher di navigazione','ritenta ed inseriscine uno cliccando il posto che vuoi sulla mappa',[{text:'Okay'}])
+        return;
+    }
+    props.navigation.navigate('NewPlace',{pickedLocation:selectedLocation});//preso dal PlaceNavigator usando la navigazione posso passargli alcuni parametri alla NewPlaceScreen
+},[selectedLocation])
 
+
+useEffect(()=>{
+    props.navigation.setParams({saveLocation:savePickedLocationHandler})
+},[savePickedLocationHandler])
 
     let markerCoordinate;
 
@@ -42,10 +55,29 @@ const MapScreen=props=>{
 }
 
 
+MapScreen.navigationOptions=navData=>{
+    const saveFn=navData.navigation.getParam('saveLocation');//richiamo dalla useEffect la saveLocation
+    return{
+        headerRight:(
+        <TouchableOpacity style={styles.headerButton} onPress={saveFn}>{/*richiamo la constante al tocco saveFn*/}
+            <Text style={styles.headerButtonText}>Save</Text>
+            </TouchableOpacity>
+        )
+    };
+};
+
+
 
 const styles=StyleSheet.create({
     map:{
         flex:1
+    },
+    headerButton:{
+        marginHorizontal:20
+    },
+    headerButtonText:{
+        fontSize:16,
+        color:Platform.OS==='android'?'white':Colors.primary
     }
 });
 
