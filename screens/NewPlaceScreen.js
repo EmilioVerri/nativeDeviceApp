@@ -1,4 +1,4 @@
-import React,{useState} from 'react';
+import React,{useState,useCallback} from 'react';
 import {View,Text,StyleSheet,Platform,TextInput,ScrollView,Button} from 'react-native';
 import Colors from'../constants/Colors';
 import LocationPicker from '../components/LocationPicker';
@@ -15,15 +15,22 @@ const NewPlaceScreen=props=>{
     //faccio un altro useState per memorizzare l'immagine che gli passo dalla ImagePicker
     const[selectedImage,setSelectedImage]=useState();
 
+
+    const [selectedLocation,setSelectedLocation]=useState();
+
     const dispatch=useDispatch();
 
     const titleChangeHandler=text=>{
         setTitleValue(text);
     }
 
+    const locationPickedHandler=useCallback(location=>{
+        setSelectedLocation(location);
+    },[]);
+
     const savePlaceHandler=()=>{
         //passo anche all'azione la selectedImage
-        dispatch(placesActions.addPlace(titleValue,selectedImage));
+        dispatch(placesActions.addPlace(titleValue,selectedImage,selectedLocation));
         props.navigation.goBack();
     }
 
@@ -41,7 +48,7 @@ const NewPlaceScreen=props=>{
             <Text style={styles.label}>Title</Text>
             <TextInput style={styles.textInput} onChangeText={titleChangeHandler} value={titleValue}/>
             <ImagePicker onImageTake={imageTakenHandler}/>{/*recupero informazioni salvate*/}
-            <LocationPicker navigation={props.navigation}/>{/*utilizzo questo puntello di navigazione per rimediare a degli errori*/}
+            <LocationPicker navigation={props.navigation} onLocationPicked={locationPickedHandler}/>{/*utilizzo questo puntello di navigazione per rimediare a degli errori*/}
             <Button 
             title="Save Place" 
             color={Colors.primary} 

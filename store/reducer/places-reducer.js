@@ -15,7 +15,15 @@ export default (state = initialState, action) => {
              */
             return {
                 places: action.places.map(
-                    pl => new Place(pl.id.toString(), pl.title, pl.imageUri)//nel nuovo array ci saranno solo queste informazioni
+                    pl => new Place(
+                        pl.id.toString(),
+                         pl.title, 
+                         pl.imageUri,
+                         pl.address,
+                         pl.lat,
+                         pl.lng
+                         )//nel nuovo array ci saranno solo queste informazioni
+                         
                 )
             }
 
@@ -27,7 +35,11 @@ export default (state = initialState, action) => {
                 //new Date().toString(),non ci sarà più questo id
                 action.placeData.id.toString(),
                 action.placeData.title,
-                action.placeData.image
+                action.placeData.image,
+                action.placeData.address,
+                action.placeData.coords.lat,
+                action.placeData.coords.lng,
+                console.log(action.placeData.address)
             )
             return {
                 places: state.places.concat(newPlace)

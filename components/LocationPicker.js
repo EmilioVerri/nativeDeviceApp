@@ -1,4 +1,4 @@
-import React,{useState} from 'react';
+import React,{useState,useEffect} from 'react';
 import { Text,Button, View,ActivityIndicator,StyleSheet,Alert} from 'react-native';
 import Colors from '../constants/Colors';
 //importo il componente per gestire la location
@@ -13,6 +13,20 @@ const LocationPricker=props=>{
 
     const [isFetching,setIsFetching]=useState(false);
     const [pickedLocation,SetPickedLocation]=useState();
+
+    const mapPickedLocation=props.navigation.getParam('pickedLocation');//riprendo pickedLocation da MapScreen
+
+
+    const {onLocationPicked}=props;//faccio la destructuring
+
+    useEffect(()=>{
+        if(mapPickedLocation){
+            SetPickedLocation(mapPickedLocation);
+            onLocationPicked(mapPickedLocation);//utilizzo una funzione
+        }
+    },[mapPickedLocation,onLocationPicked])
+
+
 
     const verifyPermissions=async()=>{//per verificare i permessi
         const result= await Permissions.askAsync(Permissions.LOCATION);
@@ -42,6 +56,11 @@ const LocationPricker=props=>{
               lat:location.coords.latitude,
               lng:location.coords.longitude
           });
+          props.onLocationPicked({
+            //richiamo latitudine e longitudine riprendo i nomi dai valori indicati dal console.log
+            lat:location.coords.latitude,
+            lng:location.coords.longitude
+        });//utilizzo una funzione
         }catch(err){
             Alert.alert('Could not fetch location!',
             'Please try again later or pick a location on the map.',
