@@ -8,7 +8,20 @@ import Colors from '../constants/Colors';
 
 const PlaceDetailScreen=props=>{
     const placeId=props.navigation.getParam('placeId');
-    const selectedPlace=useSelector(state=>state.places.places.find(place=>place.id===placeId))
+    const selectedPlace=useSelector(state=>state.places.places.find(place=>place.id===placeId));
+
+    const selectedLocation={lat:selectedPlace.lat,lng:selectedPlace.lng};
+
+    const showMapHandler=()=>{
+        props.navigation.navigate('Map',{
+            readonly:true,
+            initialLocation:selectedLocation
+        });
+        /*passo i dati alla mappa così quando la apro avrà ancora il riferimento al punto che avrò indicato poi renderò la mappa solo leggibile e non modificabile
+        */
+    };
+
+
     return(
         <ScrollView contentContainerStyle={{alignItems:'center'}}>
             <Image source={{uri:selectedPlace.imageUri}} style={styles.image}/>
@@ -16,7 +29,10 @@ const PlaceDetailScreen=props=>{
                 <View style={styles.addressContainer}>
                 <Text style={styles.address}>{selectedPlace.address}</Text>
                 </View>
-                <MapPreview location={{lat:selectedPlace.lat,lng:selectedPlace.lng}} style={styles.mapPreview}/>
+                <MapPreview 
+                location={selectedLocation} 
+                style={styles.mapPreview}
+                onPress={showMapHandler}/>
             </View>
         </ScrollView>
     )
