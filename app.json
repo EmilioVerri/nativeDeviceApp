@@ -1,14 +1,22 @@
 {
   "expo": {
-    "name": "nativeDevice",
-    "slug": "nativeDevice",
+    "name": "Great Places", 
+    "description":"Some text",
+    "slug": "great-places",
+    "sdkVersion":"39.0.0",
+    "privacy":"public",
+    "platforms":[
+        "ios",
+        "android"
+    ],
+    
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/places.png",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/splash_icon.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#FF0000"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
@@ -21,8 +29,8 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#FFFFFF"
+        "foregroundImage": "./assets/places-adaptive.png",
+        "backgroundColor": "#171717"
       }
     },
     "web": {
