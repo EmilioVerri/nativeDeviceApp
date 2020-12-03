@@ -25,13 +25,28 @@
       "**/*"
     ],
     "ios": {
+        "bundleIdentifier":"host.exp.expo",
+        "buildNumber":"1.0.0",
       "supportsTablet": true
     },
     "android": {
+        "package":"host.exp.expo",
+        "versionCode":1,
       "adaptiveIcon": {
         "foregroundImage": "./assets/places-adaptive.png",
         "backgroundColor": "#171717"
+      },
+      "permissions":[
+          "ACCESS_FINE_LOCATION",
+          "CAMERA",
+          "WRITE_EXTERNAL_STORAGE"
+      ],
+      "config":{
+        "googleMaps":{
+            "apiKey":"AIzaSyC_hYkin1ENafPR0Qd8AfNUo9nDfhBLx6U"
+        }
       }
+      
     },
     "web": {
       "favicon": "./assets/favicon.png"
